@@ -35,7 +35,7 @@ export default function RootLayout({
             <Link href="/">PokeStats</Link>
           </h1>
           <div className="ml-auto">
-            <Input type="text" placeholder="Search..." className="w-64" />
+            <Input type="text" placeholder="Search For a Card" className="w-64" />
           </div>
         </header>
         <nav className="bg-black text-white p-4 flex justify-between items-center">

@@ -1,0 +1,4 @@
+make call from frontend
+
+setup nextjs as a proxy route
+allows for the key to stay secure
