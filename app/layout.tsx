@@ -52,6 +52,9 @@ export default function RootLayout({
               <li>
                 <Link href="/card_types">Card Types</Link>
               </li>
+              <li>
+                <Link href="/cards">Cards</Link>
+              </li>
           </ul>
         </nav>
         {children}
