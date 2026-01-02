@@ -101,7 +101,7 @@ export const mockData = {
   }
 }
 
-/*export const MockCards = {
+export const MockCards = 
 {
   "data": [
     {
@@ -1091,5 +1091,4 @@ export const mockData = {
     }
   }
 }
-}
-*/
+

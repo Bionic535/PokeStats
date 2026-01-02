@@ -4,6 +4,7 @@ export interface CardProps {
     setName: string;
     cardNumber: string;
     rarity: string;
+    imageUrl?: string;
 }
 
 export interface SetProps {
