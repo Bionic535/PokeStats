@@ -11,9 +11,8 @@ export default function Cards() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {MockCards.data.map((card) => (
-          <Link href={`/cards/${card.id}`}>
+          <Link key={card.id} href={`/cards/${card.id}`} className="block">
             <CardIcon 
-              key={card.id}
               {...card}
             />
           </Link>

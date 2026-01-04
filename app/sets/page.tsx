@@ -12,9 +12,8 @@ export default function CardSetPage() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {mockData.data.map((set) => (
-          <Link href={`/sets/${set.id}`}>
+          <Link key={set.id} href={`/sets/${set.id}`}>
             <SetIcon 
-              key={set.id}
               {...set}
             />
           </Link>
