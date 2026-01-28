@@ -15,3 +15,7 @@ export interface SetProps {
     cardCount: number;
     imageUrl?: string;
 }
+
+export interface ApiResponse {
+  data: CardProps[];
+}

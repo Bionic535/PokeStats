@@ -1,15 +1,42 @@
 import { NextResponse } from "next/server";
-import { redis } from '@/lib/redis';
+import { redis } from "@/lib/redis";
+
 export async function GET() {
   try {
-      // 1. Set a value in Redis
-      await redis.set('greeting', 'Hello from Redis Cloud!', 'EX', 600); // Expires in 60s
-  
-      // 2. Get a value from Redis
-      const message = await redis.get('greeting');
-  
-      return NextResponse.json({ message });
-    } catch (error) {
-      return NextResponse.json({ error: 'Failed to connect to Redis' }, { status: 500 });
+    const key = "cards";
+    const cached = await redis.get(key);
+    if (cached) {
+      console.log("cached");
+      return NextResponse.json(JSON.parse(cached));
     }
+    console.log("fetching data");
+    const response = await fetch(
+      "https://www.pokemonpricetracker.com/api/v2/cards?tcgPlayerId=&set=&search=&rarity=Hyper+Rare&cardType=Pokemon&includeHistory=true&includeEbay=true&includeBoth=true&sortBy=price&sortOrder=asc&limit=3",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.API_KEY}`,
+        },
+      },
+    );
+    console.log("data fetched");
+
+    if (!response.ok) {
+      throw new Error(
+        `External API error: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+
+    // Store in Redis
+    await redis.set(key, JSON.stringify(data));
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error in GET /api/cards:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 }
