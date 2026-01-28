@@ -11,7 +11,7 @@ export async function GET() {
     }
     console.log("fetching data");
     const response = await fetch(
-      "https://www.pokemonpricetracker.com/api/v2/cards?tcgPlayerId=&set=&search=&rarity=Hyper+Rare&cardType=Pokemon&includeHistory=true&includeEbay=true&includeBoth=true&sortBy=price&sortOrder=asc&limit=3",
+      'https://www.pokemonpricetracker.com/api/v2/cards?setId=&set=&search=&rarity=&minPrice=20&printing=&includeHistory=true&includeEbay=true&includeBoth=true&days=3&sortOrder=asc&limit=3',
       {
         headers: {
           Authorization: `Bearer ${process.env.API_KEY}`,
@@ -29,7 +29,7 @@ export async function GET() {
     const data = await response.json();
 
     // Store in Redis
-    await redis.set(key, JSON.stringify(data));
+    await redis.set(key, JSON.stringify(data), "EX", 86400);
 
     return NextResponse.json(data);
   } catch (error) {
