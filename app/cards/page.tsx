@@ -1,12 +1,12 @@
 "use client";
 import { MockCards } from "../mockdata";
 import { CardIcon } from "@/components/cardicon";
-import { ApiResponse } from "@/types";
+import { CardResponse, CardProps } from "@/types";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Cards() {
-  const [cards, setCards] = useState<ApiResponse>();
+  const [cards, setCards] = useState<CardResponse<CardProps>>();
 
   useEffect(() => {
     //call cards api

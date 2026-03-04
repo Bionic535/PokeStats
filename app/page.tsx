@@ -5,10 +5,10 @@ import { mockData, MockCards } from "./mockdata";
 import Link from "next/link";
 import { CardIcon } from "@/components/cardicon";
 import { useState, useEffect } from "react";
-import { ApiResponse } from "@/types";
+import { CardResponse, CardProps } from "@/types";
 
 export default function Page() {
-  const [cards, setCards] = useState<ApiResponse>();
+  const [cards, setCards] = useState<CardResponse<CardProps>>();
 
   useEffect(() => {
     //call cards api

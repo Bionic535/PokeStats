@@ -1,4 +1,42 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
+import { redis } from "@/lib/redis";
+
 export async function GET() {
-  return NextResponse.json({ message: 'Hello from the API!'})
+  try {
+    const key = "sets";
+    const cached = await redis.get(key);
+    if (cached) {
+      console.log("cached");
+      return NextResponse.json(JSON.parse(cached));
+    }
+    console.log("fetching data");
+    const response = await fetch(
+      'https://www.pokemonpricetracker.com/api/v2/sets?search=&series=&limit=5',
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.API_KEY}`,
+        },
+      },
+    );
+    console.log("data fetched");
+
+    if (!response.ok) {
+      throw new Error(
+        `External API error: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = await response.json();
+
+    // Store in Redis
+    await redis.set(key, JSON.stringify(data), "EX", 86400);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error in GET /api/cards:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 }
